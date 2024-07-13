@@ -1,4 +1,4 @@
-class ApplicationPet < ApplicationRecord
-  belongs_to :application
+class AdoptionPets < ApplicationRecord
+  belongs_to :adoption
   belongs_to :pet
 end
