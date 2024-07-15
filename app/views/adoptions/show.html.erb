@@ -1,0 +1,21 @@
+<h1>Adoption Details</h1>
+
+<div id="adoption-details">
+  <p>Name: <%= @adoption.name %></p>
+  <p>Address: <%= @adoption.street_address %>, <%= @adoption.city %>, <%= @adoption.state %> <%= @adoption.zip_code %></p>
+  <p>Description: <%= @adoption.description %></p>
+</div>
+
+<div id="adoption-status">
+  <p>Status: <%= @adoption.status %></p>
+</div>
+
+<div id="adoption-pets">
+  <h2>Pets</h2>
+  <ul>
+    <% @adoption.pets.each do |pet| %>
+      <li><%= link_to pet.name, "/pets/#{pet.id}" %></li>
+    <% end %>
+  </ul>
+</div>
+
