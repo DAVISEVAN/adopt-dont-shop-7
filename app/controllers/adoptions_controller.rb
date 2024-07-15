@@ -1,5 +1,5 @@
 class AdoptionsController < ApplicationController
-    def Show
+    def show
         @adoption = Adoption.find(params[:id])
     end
 end
