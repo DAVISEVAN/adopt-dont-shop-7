@@ -34,4 +34,16 @@ RSpec.describe 'New Adoption Application', type: :feature do
       expect(page).to have_content('In Progress')
     end
   end
+
+  it 'shows an error message if form fields are not filled in' do
+    visit '/adoptions/new'
+
+    # User Story 3: Form not Completed
+    within 'form' do
+      click_button 'Submit'
+    end
+
+    expect(current_path).to eq('/adoptions')
+    expect(page).to have_content('You must fill in all fields.')
+  end
 end

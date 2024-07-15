@@ -13,6 +13,7 @@ class AdoptionsController < ApplicationController
         if @adoption.save
         redirect_to action: 'show', id: @adoption.id
         else
+        flash[:alert] = 'You must fill in all fields.'
         render action: 'new'
         end
     end
