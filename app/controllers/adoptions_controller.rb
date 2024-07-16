@@ -16,11 +16,21 @@ class AdoptionsController < ApplicationController
         @adoption = Adoption.new(adoption_params)
         @adoption.status = 'In Progress'
         if @adoption.save
-        redirect_to action: 'show', id: @adoption.id
+            redirect_to action: 'show', id: @adoption.id
         else
-        flash[:alert] = 'You must fill in all fields.'
+            flash[:alert] = 'You must fill in all fields.'
         render action: 'new'
         end
+    end
+
+    def update
+        @adoption = Adoption.find(params[:id])
+        if params[:commit] == "Submit Application"
+            @adoption.update(status: 'Pending', description: params[:adoption][:description])
+        else
+            @adoption.update(adoption_params)
+        end
+        redirect_to "/adoptions/#{params[:id]}"
     end
 
     private
