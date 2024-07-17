@@ -38,6 +38,7 @@
     </div>
   <% end %>
 
+  <% if @adoption.pets.any? %>
   <div id="submit-application">
     <h2>Submit Your Application</h2>
     <%= form_with model: @adoption, url: "/adoptions/#{@adoption.id}", method: :patch, local: true do |form| %>
@@ -50,6 +51,7 @@
       </div>
     <% end %>
   </div>
+<% end %>
 <% end %>
 
 <div id="adoption-pets">
