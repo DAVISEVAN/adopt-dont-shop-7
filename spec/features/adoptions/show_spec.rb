@@ -47,7 +47,8 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       end
     end
   end
-# User Story 4: Searching for Pets for an Application
+
+  # User Story 4: Searching for Pets for an Application
   it 'can search for pets by name and display results' do
     visit "/adoptions/#{@adoption.id}"
 
@@ -60,6 +61,29 @@ RSpec.describe 'Adoption Show Page', type: :feature do
     expect(current_path).to eq("/adoptions/#{@adoption.id}")
     
     within '#search-results' do
+      expect(page).to have_link('Snoopy', href: "/pets/#{@pet2.id}")
+    end
+  end
+
+  # User Story 5: Adopt a Pet from Search Results
+  it 'can adopt a pet from the search results' do
+    visit "/adoptions/#{@adoption.id}"
+
+    
+    within '#add-pet' do
+      fill_in 'Search for a Pet by Name', with: 'Snoopy'
+      click_button 'Search'
+    end
+
+    within '#search-results' do
+      expect(page).to have_link('Snoopy', href: "/pets/#{@pet2.id}")
+      expect(page).to have_button('Adopt this Pet')
+      click_button 'Adopt this Pet'
+    end
+
+    expect(current_path).to eq("/adoptions/#{@adoption.id}")
+
+    within '#adoption-pets' do
       expect(page).to have_link('Snoopy', href: "/pets/#{@pet2.id}")
     end
   end
