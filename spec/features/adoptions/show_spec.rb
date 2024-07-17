@@ -20,7 +20,7 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       description: 'I have a big backyard and love animals.',
       status: 'In Progress'
     )
-
+    @adoption_without_pets = Adoption.create!(name: "Jane Doe", street_address: "456 Maple St", city: "Boulder", state: "CO", zip_code: "80301", description: "Has a big backyard", status: "In Progress")
     AdoptionPet.create!(adoption: @adoption, pet: @pet1)
     AdoptionPet.create!(adoption: @adoption, pet: @pet2)
   end
@@ -109,5 +109,13 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       end
     end
     expect(page).not_to have_selector("#add-pet")
+  end
+
+  # User Story 7: No submit section if no pets added
+  it 'does not show submit section if no pets are added' do
+    visit "/adoptions/#{@adoption_without_pets.id}"
+
+    
+    expect(page).not_to have_selector('#submit-application')
   end
 end
