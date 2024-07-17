@@ -23,6 +23,9 @@
   patch "/shelters/:id", to: "shelters#update"
   delete "/shelters/:id", to: "shelters#destroy"
 
+  # AdminShelter routes
+  get '/admin/shelters', to: 'admin/shelters#index', as: 'admin_shelters'
+
   # Pet routes
   get "/pets", to: "pets#index"
   get "/pets/:id", to: "pets#show"
