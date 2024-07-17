@@ -137,7 +137,7 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       expect(page).not_to have_content('Mark')
     end
   end
-
+  # User Story 9: Case Insensitive Search
   it "can search for pets by name and display case insensitive matches" do
     visit "/adoptions/#{@adoption.id}"
 

@@ -20,3 +20,10 @@
     <% end %>
   </tbody>
 </table>
+
+<h2>Shelters with Pending Applications</h2>
+<ul>
+  <% @pending_shelters.each do |shelter| %>
+    <li><%= shelter.name %></li>
+  <% end %>
+</ul>
