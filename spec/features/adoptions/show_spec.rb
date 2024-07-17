@@ -87,4 +87,27 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       expect(page).to have_link('Snoopy', href: "/pets/#{@pet2.id}")
     end
   end
+
+  # User Story 6: Submit an Application
+  it 'can submit an application' do
+    visit "/adoptions/#{@adoption.id}"
+
+    within '#submit-application' do
+      fill_in "Why would you make a good owner for these pets?", with: 'I have a big backyard and love animals.'
+      click_button 'Submit Application'
+    end
+
+    expect(current_path).to eq("/adoptions/#{@adoption.id}")
+
+    within '#adoption-status' do
+      expect(page).to have_content('Pending')
+    end
+
+    within '#adoption-pets' do
+      @adoption.pets.each do |pet|
+        expect(page).to have_link(pet.name, href: "/pets/#{pet.id}")
+      end
+    end
+    expect(page).not_to have_selector("#add-pet")
+  end
 end
