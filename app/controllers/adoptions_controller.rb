@@ -1,13 +1,14 @@
 class AdoptionsController < ApplicationController
+    
     def show
         @adoption = Adoption.find(params[:id])
         if params[:search].present?
-            @pets = Pet.where("name LIKE ?", "%#{params[:search]}%")
+          @pets = Pet.search_by_name(params[:search])
         else
-            @pets = []
+          @pets = []
         end
-    end
-
+      end
+    
     def new
         @adoption = Adoption.new
     end
