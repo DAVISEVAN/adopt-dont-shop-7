@@ -16,6 +16,6 @@ class Pet < ApplicationRecord
   end
 
   def self.search_by_name(name)
-    where("name ILIKE ?", "%#{name}%")
+    where("name ILIKE ?", "%#{name.downcase}%")
   end
 end

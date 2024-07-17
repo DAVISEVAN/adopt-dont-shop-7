@@ -11,6 +11,9 @@ RSpec.describe 'Adoption Show Page', type: :feature do
     @pet1 = Pet.create!(name: 'Doofus', breed: 'Mixed', age: 3, shelter: @shelter)
     @pet2 = Pet.create!(name: 'Snoopy', breed: 'Beagle', age: 5, shelter: @shelter)
     @pet3 = Pet.create!(name: 'Mark', breed: 'Tabby', age: 2, shelter: @shelter)
+    @pet4 = Pet.create!(name: 'Fluffy', breed: 'Poodle', age: 1, shelter: @shelter)
+    @pet5 = Pet.create!(name: 'FLUFF', breed: 'Poodle', age: 1, shelter: @shelter)
+    @pet6 = Pet.create!(name: 'Mr. FlUfF', breed: 'Poodle', age: 1, shelter: @shelter)
 
     @adoption = Adoption.create!(
       name: 'John Doe',
@@ -132,6 +135,21 @@ RSpec.describe 'Adoption Show Page', type: :feature do
     within '#search-results' do
       expect(page).to have_content('Doofus')
       expect(page).not_to have_content('Mark')
+    end
+  end
+
+  it "can search for pets by name and display case insensitive matches" do
+    visit "/adoptions/#{@adoption.id}"
+
+    within '#add-pet' do
+      fill_in 'Search for a Pet by Name', with: 'fluff'
+      click_button 'Search'
+    end
+
+    within '#search-results' do
+      expect(page).to have_content('Fluffy')
+      expect(page).to have_content('FLUFF')
+      expect(page).to have_content('Mr. FlUfF')
     end
   end
 end
