@@ -4,7 +4,12 @@ class Shelter < ApplicationRecord
   validates :city, presence: true
 
   has_many :pets, dependent: :destroy
-
+  has_many :adoptions, through: :pets
+  scope :with_pending_applications, -> {
+    joins(pets: :adoptions)
+      .where(adoptions: { status: 'Pending' })
+      .distinct
+  }
   def self.order_by_recently_created
     order(created_at: :desc)
   end
@@ -30,5 +35,9 @@ class Shelter < ApplicationRecord
 
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where("age >= ?", age_filter)
+  end
+
+  def self.ordered_by_name_desc
+    find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 end

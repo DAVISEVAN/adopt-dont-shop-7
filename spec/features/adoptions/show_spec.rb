@@ -8,9 +8,13 @@ RSpec.describe 'Adoption Show Page', type: :feature do
       foster_program: true, 
       rank: 1
     )
-    @pet1 = Pet.create!(name: 'Dufus', breed: 'Mixed', age: 3, shelter: @shelter)
+    @pet1 = Pet.create!(name: 'Doofus', breed: 'Mixed', age: 3, shelter: @shelter)
     @pet2 = Pet.create!(name: 'Snoopy', breed: 'Beagle', age: 5, shelter: @shelter)
-    
+    @pet3 = Pet.create!(name: 'Mark', breed: 'Tabby', age: 2, shelter: @shelter)
+    @pet4 = Pet.create!(name: 'Fluffy', breed: 'Poodle', age: 1, shelter: @shelter)
+    @pet5 = Pet.create!(name: 'FLUFF', breed: 'Poodle', age: 1, shelter: @shelter)
+    @pet6 = Pet.create!(name: 'Mr. FlUfF', breed: 'Poodle', age: 1, shelter: @shelter)
+
     @adoption = Adoption.create!(
       name: 'John Doe',
       street_address: '123 Main Street',
@@ -117,5 +121,35 @@ RSpec.describe 'Adoption Show Page', type: :feature do
 
     
     expect(page).not_to have_selector('#submit-application')
+  end
+
+  # User Story 8: Partial matches in search
+  it "can search for pets by name and display partial matches" do
+    visit "/adoptions/#{@adoption.id}"
+
+    within '#add-pet' do
+      fill_in 'Search for a Pet by Name', with: 'Doo'
+      click_button 'Search'
+    end
+
+    within '#search-results' do
+      expect(page).to have_content('Doofus')
+      expect(page).not_to have_content('Mark')
+    end
+  end
+  # User Story 9: Case Insensitive Search
+  it "can search for pets by name and display case insensitive matches" do
+    visit "/adoptions/#{@adoption.id}"
+
+    within '#add-pet' do
+      fill_in 'Search for a Pet by Name', with: 'fluff'
+      click_button 'Search'
+    end
+
+    within '#search-results' do
+      expect(page).to have_content('Fluffy')
+      expect(page).to have_content('FLUFF')
+      expect(page).to have_content('Mr. FlUfF')
+    end
   end
 end
