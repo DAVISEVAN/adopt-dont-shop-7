@@ -4,11 +4,11 @@ class Admin::AdoptionsController < ApplicationController
     end
   
     def approve_pet
-      @adoption = Adoption.find(params[:id])
-      @adoption.approve_pet(params[:pet_id])
-      redirect_to "/admin/adoptions/#{@adoption.id}"
+      adoption_pet = AdoptionPet.find_by(adoption_id: params[:id], pet_id: params[:pet_id])
+      adoption_pet.approve
+      redirect_to "/admin/adoptions/#{params[:id]}"
     end
-
+  
     def reject_pet
       adoption_pet = AdoptionPet.find_by(adoption_id: params[:id], pet_id: params[:pet_id])
       adoption_pet.reject
