@@ -16,12 +16,17 @@
     <% @adoption.pets.each do |pet| %>
       <li id="pet-<%= pet.id %>">
         <%= link_to pet.name, "/pets/#{pet.id}" %>
-        <% if pet.adoption_pets.find_by(adoption_id: @adoption.id).approved %>
+        <% adoption_pet = pet.adoption_pets.find_by(adoption_id: @adoption.id) %>
+        <% if adoption_pet.approved %>
           <span>Approved</span>
+        <% elsif adoption_pet.rejected %>
+          <span>Rejected</span>
         <% else %>
           <%= button_to 'Approve Pet', "/admin/adoptions/#{@adoption.id}/approve_pet/#{pet.id}", method: :post %>
+          <%= button_to 'Reject Pet', "/admin/adoptions/#{@adoption.id}/reject_pet/#{pet.id}", method: :post %>
         <% end %>
       </li>
     <% end %>
   </ul>
 </div>
+

@@ -34,4 +34,20 @@ RSpec.describe 'Admin Adoption Show Page', type: :feature do
       expect(page).not_to have_button('Approve Pet')
     end
   end
+
+  it 'can reject a pet for adoption' do
+    visit "/admin/adoptions/#{@adoption.id}"
+
+    within "#pet-#{@pet1.id}" do
+      click_button 'Reject Pet'
+    end
+
+    expect(current_path).to eq("/admin/adoptions/#{@adoption.id}")
+
+    within "#pet-#{@pet1.id}" do
+      expect(page).to have_content('Rejected')
+      expect(page).not_to have_button('Approve Pet')
+      expect(page).not_to have_button('Reject Pet')
+    end
+  end
 end
