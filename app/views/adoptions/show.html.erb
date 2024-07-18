@@ -1,0 +1,65 @@
+<h1>Adoption Details</h1>
+
+<div id="adoption-details">
+  <p>Name: <%= @adoption.name %></p>
+  <p>Address: <%= @adoption.street_address %>, <%= @adoption.city %>, <%= @adoption.state %> <%= @adoption.zip_code %></p>
+  <p>Description: <%= @adoption.description %></p>
+</div>
+
+<div id="adoption-status">
+  <p>Status: <%= @adoption.status %></p>
+</div>
+
+<% if @adoption.status == 'In Progress' %>
+  <div id="add-pet">
+    <h2>Add a Pet to this Application</h2>
+    <%= form_with url: "/adoptions/#{@adoption.id}", method: :get, local: true do |form| %>
+      <div>
+        <%= form.label :search, 'Search for a Pet by Name' %>
+        <%= form.text_field :search %>
+      </div>
+      <div>
+        <%= form.submit 'Search' %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @pets.present? %>
+    <div id="search-results">
+      <h3>Search Results:</h3>
+      <ul>
+        <% @pets.each do |pet| %>
+          <li>
+            <%= link_to pet.name, "/pets/#{pet.id}" %>
+            <%= button_to 'Adopt this Pet', "/adoptions/#{@adoption.id}/adoption_pets?pet_id=#{pet.id}", method: :post %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @adoption.pets.any? %>
+  <div id="submit-application">
+    <h2>Submit Your Application</h2>
+    <%= form_with model: @adoption, url: "/adoptions/#{@adoption.id}", method: :patch, local: true do |form| %>
+      <div>
+        <%= form.label :description, 'Why would you make a good owner for these pets?' %>
+        <%= form.text_area :description %>
+      </div>
+      <div>
+        <%= form.submit 'Submit Application' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% end %>
+
+<div id="adoption-pets">
+  <h2>Pets</h2>
+  <ul>
+    <% @adoption.pets.each do |pet| %>
+      <li><%= link_to pet.name, "/pets/#{pet.id}" %></li>
+    <% end %>
+  </ul>
+</div>
+

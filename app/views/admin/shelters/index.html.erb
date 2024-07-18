@@ -1,0 +1,29 @@
+<h1>Admin Shelters Index</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>Foster Program</th>
+      <th>Rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shelters.each do |shelter| %>
+      <tr>
+        <td><%= shelter.name %></td>
+        <td><%= shelter.city %></td>
+        <td><%= shelter.foster_program %></td>
+        <td><%= shelter.rank %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Shelters with Pending Applications</h2>
+<ul>
+  <% @pending_shelters.each do |shelter| %>
+    <li><%= shelter.name %></li>
+  <% end %>
+</ul>
