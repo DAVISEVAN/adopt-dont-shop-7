@@ -1,0 +1,27 @@
+<h1>Adoption Details</h1>
+
+<div id="adoption-details">
+  <p>Name: <%= @adoption.name %></p>
+  <p>Address: <%= @adoption.street_address %>, <%= @adoption.city %>, <%= @adoption.state %> <%= @adoption.zip_code %></p>
+  <p>Description: <%= @adoption.description %></p>
+</div>
+
+<div id="adoption-status">
+  <p>Status: <%= @adoption.status %></p>
+</div>
+
+<div id="adoption-pets">
+  <h2>Pets</h2>
+  <ul>
+    <% @adoption.pets.each do |pet| %>
+      <li id="pet-<%= pet.id %>">
+        <%= link_to pet.name, "/pets/#{pet.id}" %>
+        <% if pet.adoption_pets.find_by(adoption_id: @adoption.id).approved %>
+          <span>Approved</span>
+        <% else %>
+          <%= button_to 'Approve Pet', "/admin/adoptions/#{@adoption.id}/approve_pet/#{pet.id}", method: :post %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

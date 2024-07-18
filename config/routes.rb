@@ -25,6 +25,9 @@
 
   # AdminShelter routes
   get '/admin/shelters', to: 'admin/shelters#index', as: 'admin_shelters'
+  get '/admin/adoptions/:id', to: 'admin/adoptions#show', as: 'admin_adoption'
+  post '/admin/adoptions/:id/approve_pet/:pet_id', to: 'admin/adoptions#approve_pet', as: 'admin_approve_pet'
+
 
   # Pet routes
   get "/pets", to: "pets#index"
